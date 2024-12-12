@@ -2,56 +2,60 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
         RentalService rentalService = new RentalService();
+        Admin admin = new Admin(rentalService, "admin", "password123");
+        CustomerManager customerManager = new CustomerManager();
+        CarManager carManager = new CarManager();
 
-        System.out.println("Welcome to the Car Rental System");
+        Scanner scanner = new Scanner(System.in);
+        boolean running = true;
 
-        while (true) {
-            System.out.println("\nPlease select an option:");
-            System.out.println("1. Admin Login");
-            System.out.println("2. User Login");
-            System.out.println("3. Exit");
-            System.out.print("Your choice: ");
+        while (running) {
+            System.out.println("Enter command: login, addcustomer, addcar, or exit:");
+            String command = scanner.nextLine();
 
-            int choice = scanner.nextInt();
-            scanner.nextLine(); 
+            switch (command.toLowerCase()) {
+                case "login":
+                    System.out.print("Enter admin name: ");
+                    String name = scanner.nextLine();
+                    System.out.print("Enter password: ");
+                    String password = scanner.nextLine();
 
-            switch (choice) {
-                case 1 -> {
-                    System.out.print("Enter Admin Username: ");
-                    String adminUsername = scanner.nextLine();
-                    System.out.print("Enter Admin Password: ");
-                    String adminPassword = scanner.nextLine();
-
-                    if (adminUsername.equals("admin") && adminPassword.equals("password")) {
-                        System.out.println("\nAdmin Login Successful!");
-                        Admin admin = new Admin(rentalService);
-                        admin.showMenu();
+                    if (admin.getAdminName().equals(name) && admin.verifyPassword(password)) {
+                        System.out.println("Login successful!");
+                        admin.viewAllCustomers(customerManager);
                     } else {
-                        System.out.println("Invalid credentials. Please try again.");
+                        System.out.println("Login failed.");
                     }
-                }
+                    break;
 
-                case 2 -> {
-                    System.out.print("Enter your name: ");
-                    String userName = scanner.nextLine();
-                    System.out.print("Enter your email: ");
-                    String userEmail = scanner.nextLine();
+                case "addcustomer":
+                    System.out.print("Enter customer name: ");
+                    String customerName = scanner.nextLine();
+                    System.out.print("Enter customer ID: ");
+                    int customerId = Integer.parseInt(scanner.nextLine());
+                    System.out.print("Enter contact: ");
+                    String contact = scanner.nextLine();
+                    customerManager.addCustomer(new Customer(customerId, customerName, contact, "default_email"));
+                    break;
 
-                    Customer customer = new Customer(userName, userEmail);
-                    System.out.println("\nWelcome, " + userName + "!");
-                    customer.showMenu(rentalService);
-                }
+                case "addcar":
+                    System.out.print("Enter car ID: ");
+                    int carId = Integer.parseInt(scanner.nextLine());
+                    System.out.print("Enter model: ");
+                    String model = scanner.nextLine();
+                    carManager.addCar(new Car(carId, model, "Red", 50000.0, true));
+                    break;
 
-                case 3 -> {
-                    System.out.println("Thank you for using the Car Rental System. Goodbye!");
-                    scanner.close();
-                    return;
-                }
+                case "exit":
+                    running = false;
+                    break;
 
-                default -> System.out.println("Invalid choice. Please try again.");
+                default:
+                    System.out.println("Unknown command.");
+                    break;
             }
         }
+        scanner.close();
     }
 }

@@ -1,63 +1,50 @@
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 public class RentalService {
-    private final List<Car> cars;
-    private final HashMap<Integer, String> rentalHistory;
+    private List<RentalRecord> rentalRecords;
 
     public RentalService() {
-        this.cars = new ArrayList<>();
-        this.rentalHistory = new HashMap<>();
+        this.rentalRecords = new ArrayList<>();
     }
 
-    public void addCar(Car car) {
-        cars.add(car);
-    }
-
-    public boolean removeCar(int carId) {
-        return cars.removeIf(car -> car.getId() == carId);
-    }
-
-    public void displayAvailableCars() {
-        System.out.println("\nAvailable Cars:");
-        for (Car car : cars) {
-            if (car.isAvailable()) {
-                System.out.println(car);
-            }
-        }
-    }
-
-    public boolean rentCar(int carId, String customerName) {
-        for (Car car : cars) {
-            if (car.getId() == carId && car.isAvailable()) {
-                car.setAvailable(false);
-                rentalHistory.put(carId, customerName);
-                return true;
-            }
-        }
-        return false;
-    }
-
-    public boolean returnCar(int carId) {
-        for (Car car : cars) {
-            if (car.getId() == carId && !car.isAvailable()) {
-                car.setAvailable(true);
-                rentalHistory.remove(carId);
-                return true;
-            }
-        }
-        return false;
-    }
-
-    public void displayRentalHistory() {
-        System.out.println("\nRental History:");
-        if (rentalHistory.isEmpty()) {
-            System.out.println("No rental history available.");
+    // Rent a car to a customer
+    public boolean rentCar(Customer customer, Car car) {
+        if (car.isAvailable()) {
+            car.setAvailable(false);
+            RentalRecord record = new RentalRecord(customer, car);
+            rentalRecords.add(record);
+            System.out.println("Car rented successfully: " + car);
+            return true;
         } else {
-            rentalHistory.forEach((carId, customerName) -> {
-                System.out.println("Car ID: " + carId + ", Rented by: " + customerName);
-            });
+            System.out.println("Car is not available for rent: " + car);
+            return false;
+        }
+    }
+
+    // Return a car
+    public boolean returnCar(Customer customer, Car car) {
+        for (RentalRecord record : rentalRecords) {
+            if (record.getCar().equals(car) && record.getCustomer().equals(customer)) {
+                car.setAvailable(true);
+                rentalRecords.remove(record);
+                System.out.println("Car returned successfully: " + car);
+                return true;
+            }
+        }
+        System.out.println("No rental record found for this car and customer.");
+        return false;
+    }
+
+    // List all rental records
+    public void listRentalRecords() {
+        if (rentalRecords.isEmpty()) {
+            System.out.println("No active rentals found.");
+        } else {
+            System.out.println("Active Rental Records:");
+            for (RentalRecord record : rentalRecords) {
+                System.out.println(record);
+            }
         }
     }
 }

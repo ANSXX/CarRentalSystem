@@ -57,8 +57,8 @@ CarRentalSystem/
    ```
 
 2. **Configure the Database**:
-   - Create a MySQL database.
-   - Import the provided SQL scripts (`cars.sql` and `rentals.sql`) in the `resources/` folder.
+   - Create a MySQL database. (For this I used XAMPP/MySQL).
+   - Import the provided SQL scripts in the `resources/` folder.
 
 3. **Compile the Code**:
    ```bash
@@ -68,6 +68,11 @@ CarRentalSystem/
 4. **Run the Application**:
    ```bash
    java -cp bin Main
+   ```
+5. **Login creditals**:
+   ```
+   Login ID - admin
+   Password - password123
    ```
 
 ---
