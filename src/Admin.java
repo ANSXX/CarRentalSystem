@@ -1,24 +1,19 @@
 public class Admin {
-    private String name;
-    private String password;
-    private RentalService rentalService;
+    private final String adminName;
+    private final String password;
+    private CarManager carManager;
 
-    public Admin(RentalService rentalService, String name, String password) {
-        this.rentalService = rentalService;
-        this.name = name;
+    public Admin(String adminName, String password, CarManager carManager) {
+        this.adminName = adminName;
         this.password = password;
+        this.carManager = carManager;
     }
 
     public String getAdminName() {
-        return name;
+        return adminName;
     }
 
-    public boolean verifyPassword(String password) {
-        return this.password.equals(password);
-    }
-
-    public void viewAllCustomers(CustomerManager customerManager) {
-        System.out.println("Viewing all customers:");
-        customerManager.listAllCustomers();
+    public boolean verifyPassword(String inputPassword) {
+        return this.password.equals(inputPassword);
     }
 }

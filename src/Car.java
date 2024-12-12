@@ -1,67 +1,48 @@
 public class Car {
-    private int carId;
+    private int id;
     private String model;
-    private String manufacturer;
+    private String brand;
     private double pricePerDay;
-    private boolean available;
+    private boolean isAvailable;
 
-    public Car(int carId, String model, String manufacturer, double pricePerDay, boolean available) {
-        this.carId = carId;
+    public Car(int id, String model, String brand, double pricePerDay, boolean isAvailable) {
+        this.id = id;
         this.model = model;
-        this.manufacturer = manufacturer;
+        this.brand = brand;
         this.pricePerDay = pricePerDay;
-        this.available = available;
+        this.isAvailable = isAvailable;
     }
 
-    public int getCarId() {
-        return carId;
-    }
-
-    public void setCarId(int carId) {
-        this.carId = carId;
+    public int getId() {
+        return id;
     }
 
     public String getModel() {
         return model;
     }
 
-    public void setModel(String model) {
-        this.model = model;
-    }
-
-    public String getManufacturer() {
-        return manufacturer;
-    }
-
-    public void setManufacturer(String manufacturer) {
-        this.manufacturer = manufacturer;
+    public String getBrand() {
+        return brand;
     }
 
     public double getPricePerDay() {
         return pricePerDay;
     }
 
+    public boolean isAvailable() {
+        return isAvailable;
+    }
+
+    public void setAvailable(boolean available) {
+        isAvailable = available;
+    }
+
     public void setPricePerDay(double pricePerDay) {
         this.pricePerDay = pricePerDay;
     }
 
-    public boolean isAvailable() {
-        return available;
-    }
-
-    public void setAvailable(boolean available) {
-        this.available = available;
-    }
-
-    // Override toString for better representation
     @Override
     public String toString() {
-        return "Car{" +
-                "carId=" + carId +
-                ", model='" + model + '\'' +
-                ", manufacturer='" + manufacturer + '\'' +
-                ", pricePerDay=" + pricePerDay +
-                ", available=" + available +
-                '}';
+        return "Car [ID=" + id + ", Model=" + model + ", Brand=" + brand + ", PricePerDay=" + pricePerDay + ", Available=" + isAvailable + "]";
     }
 }
